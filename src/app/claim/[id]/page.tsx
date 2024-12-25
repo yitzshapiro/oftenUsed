@@ -21,7 +21,12 @@ export default async function ClaimPage({ params }: PageProps) {
 
   return (
     <div className="flex-grow flex flex-col items-center justify-center p-6">
-      <ClaimCard claim={claim} rebuttal={rebuttal} sources={sources} />
+      <ClaimCard 
+        claim={claim} 
+        rebuttal={rebuttal} 
+        id={id} 
+        sources={sources}
+      />
       <Link href="/" className="mt-4 text-warm-accent hover:underline">
         Back to Home
       </Link>

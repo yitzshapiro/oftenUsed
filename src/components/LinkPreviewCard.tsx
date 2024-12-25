@@ -1,3 +1,4 @@
+// src/components/LinkPreviewCard.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -20,8 +21,6 @@ export default function LinkPreviewCard({ url }: LinkPreviewCardProps) {
     async function fetchPreview() {
       try {
         setLoading(true);
-
-        // Call our /api/preview route, passing in ?url=...
         const encodedUrl = encodeURIComponent(url);
         const res = await fetch(`/api/preview?url=${encodedUrl}`);
         const data = await res.json();
@@ -45,48 +44,39 @@ export default function LinkPreviewCard({ url }: LinkPreviewCardProps) {
 
   if (loading) {
     return (
-      <div className="border border-warm-border rounded-lg p-4 bg-white/70 text-warm-text">
+      <div className="border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-500 text-sm">
         Loading preview...
       </div>
     );
   }
 
   if (!meta) {
-    // If no metadata was returned or an error occurred
     return (
-      <div className="border border-red-300 rounded-lg p-4 bg-white/70 text-red-600">
-        Could not load preview for {url}
-      </div>
+      <a 
+        href={url} 
+        target="_blank" 
+        rel="noreferrer" 
+        className="text-blue-500 hover:text-blue-700 hover:underline break-all"
+      >
+        {url}
+      </a>
     );
   }
 
   return (
-    <div
-      className="
-        border border-warm-border 
-        rounded-lg 
-        p-4 
-        bg-white/70 
-        backdrop-blur-sm
-        text-warm-text
-        hover:shadow-md
-        transition-shadow
-      "
-    >
-      {/* The link as a clickable block */}
+    <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
       <a href={meta.url} target="_blank" rel="noreferrer" className="block">
-        {/* Title & Description */}
         {meta.title && (
-          <h4 className="text-lg font-semibold mb-1 line-clamp-1">{meta.title}</h4>
+          <h4 className="text-md font-semibold text-blue-600 mb-1 line-clamp-1">
+            {meta.title}
+          </h4>
         )}
         {meta.description && (
-          <p className="text-sm text-gray-700 line-clamp-2">{meta.description}</p>
+          <p className="text-sm text-gray-700 line-clamp-2">
+            {meta.description}
+          </p>
         )}
-
-        {/* Actual link displayed */}
-        <p className="mt-2 text-sm text-warm-accent underline overflow-hidden whitespace-nowrap text-ellipsis">
-          {url}
-        </p>
+        <p className="mt-2 text-xs text-blue-500 truncate">{meta.url}</p>
       </a>
     </div>
   );

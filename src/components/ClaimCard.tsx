@@ -1,41 +1,50 @@
+// src/components/ClaimCard.tsx
 import React from "react";
+import Link from "next/link";
 import LinkPreviewCard from "./LinkPreviewCard";
 
 interface ClaimCardProps {
   claim: string;
   rebuttal: string;
-  sources: string[];
+  id: number;
+  sources?: string[];
+  showReadMore?: boolean;
 }
 
-export default function ClaimCard({ claim, rebuttal, sources }: ClaimCardProps) {
-  return (
-    <div
-      className="
-        max-w-3xl w-full p-6 
-        rounded-xl 
-        bg-warm-card
-        backdrop-blur-sm
-        shadow-lg
-        border border-warm-border
-        text-warm-text
-      "
-    >
-      <h1 className="text-2xl font-bold mb-4">Claim</h1>
-      <p className="mb-6 text-lg">{claim}</p>
-
-      <h2 className="text-xl font-semibold mb-2">Rebuttal</h2>
-      <p className="mb-4 text-md">{rebuttal}</p>
-
+export default function ClaimCard({
+  claim,
+  rebuttal,
+  id,
+  sources,
+  showReadMore = true,
+}: ClaimCardProps) {
+  const CardContent = () => (
+    <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow duration-300">
+      <h3 className="text-xl font-semibold text-gray-800 mb-2">{claim}</h3>
+      <p className="text-gray-600 mb-4">{rebuttal}</p>
+      
       {sources && sources.length > 0 && (
-        <div>
-          <h3 className="font-semibold mb-4">Sources</h3>
+        <div className="mt-4 space-y-2">
+          <h4 className="font-semibold text-gray-700">Sources:</h4>
           <div className="space-y-4">
-            {sources.map((source, idx) => (
-              <LinkPreviewCard key={idx} url={source} />
+            {sources.map((source, index) => (
+              <div key={index} className="mb-2">
+                <LinkPreviewCard url={source} />
+              </div>
             ))}
           </div>
         </div>
       )}
     </div>
+  );
+
+  if (!showReadMore) {
+    return <CardContent />;
+  }
+
+  return (
+    <Link href={`/claim/${id}`} className="block hover:no-underline">
+      <CardContent />
+    </Link>
   );
 }

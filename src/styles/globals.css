@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  /* Updated warmer gradient background */
+  background: linear-gradient(135deg, var(--tw-gradient-stops));
+  --tw-gradient-from: theme('colors.warm-bg-1');
+  --tw-gradient-to: theme('colors.warm-bg-2');
+  color: theme('colors.warm-text');
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional: Enhance link styles globally */
+a {
+  @apply text-warm-accent;
+}
+
+a:hover {
+  @apply underline;
+}
+
+/* Optional: Customize buttons for a warmer feel */
+button {
+  @apply bg-warm-accent text-white py-2 px-4 rounded;
+}
+
+button:hover {
+  @apply bg-warm-accent-dark;
+}
